@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const customerSearchResults = document.getElementById('customer-search-results');
     const selectedCustomerIdInput = document.getElementById('selected-customer-id');
     const clientPhoneInput = document.getElementById('client-phone');
+    const identificationTagInput = document.getElementById('identification-tag');
     const serviceItemsContainer = document.getElementById('service-items-container');
     const addServiceBtn = document.getElementById('add-service-btn');
     const totalValueDisplay = document.getElementById('total-value-display');
@@ -259,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editingOrderIdInput.value = '';
         selectedCustomerData = null;
         currentOrderItems = [];
+        if(identificationTagInput) identificationTagInput.value = '';
         addServiceItem();
     }
     
@@ -366,6 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
             nomeCliente: selectedCustomerData.name,
             telefoneCliente: selectedCustomerData.phone,
             cpfCliente: selectedCustomerData.cpf || '',
+            tagIdentificacao: identificationTagInput.value,
             items: currentOrderItems,
             valorTotal: totalValue,
             observacoes: observationsInput.value,
@@ -446,6 +449,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const technicianInfo = order.status === 'finalizado' && order.finalizadoPor
             ? ` &bull; <span class="font-semibold">Finalizado por: ${order.finalizadoPor}</span>`
             : '';
+            
+        const tagHtml = order.tagIdentificacao ? ` &bull; <span>Tag: ${order.tagIdentificacao}</span>` : '';
 
         const clientPhone = order.telefoneCliente || '';
         const clientName = order.nomeCliente || '';
@@ -471,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="mt-2 space-y-1 border-t border-b border-gray-700 py-2">${itemsHtml}</div>
             <div class="text-sm text-gray-500 mt-2">
-                <span>OS: ${order.id.substring(0, 6).toUpperCase()}</span> &bull; <span>Entrada: ${entryDate}</span>${technicianInfo}
+                <span>OS: ${order.id.substring(0, 6).toUpperCase()}</span>${tagHtml} &bull; <span>Entrada: ${entryDate}</span>${technicianInfo}
             </div>
             ${order.observacoes ? `<p class="text-sm mt-3 pt-3 border-t border-gray-700">${order.observacoes}</p>` : ''}
             <div class="flex justify-end items-center mt-4 space-x-2">
@@ -494,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         customerSearchInput.value = order.nomeCliente;
         clientPhoneInput.value = order.telefoneCliente;
+        identificationTagInput.value = order.tagIdentificacao || '';
         selectedCustomerData = {
             id: order.customerId,
             name: order.nomeCliente,
