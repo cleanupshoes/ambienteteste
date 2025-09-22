@@ -405,11 +405,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchTerm = searchInput.value.toLowerCase();
         const filtered = allOrdersCache.filter(order => {
             const clientName = (order.nomeCliente || '').toLowerCase();
+            const identificationTag = (order.tagIdentificacao || '').toLowerCase();
             let itemsMatch = false;
             if (order.items && Array.isArray(order.items)) {
                 itemsMatch = order.items.some(item => item.item && item.item.toLowerCase().includes(searchTerm));
             }
-            return clientName.includes(searchTerm) || itemsMatch;
+            return clientName.includes(searchTerm) || itemsMatch || identificationTag.includes(searchTerm);
         });
         renderOrderLists(filtered);
     }
