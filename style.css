@@ -17,16 +17,14 @@ body {
     background-image: linear-gradient(to right, #00D577, #00F088);
 }
 
-/* Regras de Impressão: */
+/* --- REGRAS DE IMPRESSÃO --- */
 @media screen {
-  /* Esconde a área de impressão apenas no ecrã */
   #print-area {
     display: none;
   }
 }
 
 @media print {
-  /* Reseta margens e paddings do corpo da página para impressão */
   body, html {
     margin: 0;
     padding: 0;
@@ -34,17 +32,14 @@ body {
     height: 100%;
   }
   
-  /* Esconde tudo o que não for a área de impressão */
   body > *:not(#print-area) {
     display: none;
   }
 
-  /* Garante que a área de impressão e o seu conteúdo sejam visíveis */
   #print-area, #print-area * {
     visibility: visible;
   }
 
-  /* Posiciona a área de impressão para ocupar toda a página */
   #print-area {
     display: block;
     position: absolute;
@@ -53,55 +48,86 @@ body {
     width: 100%;
   }
   
-  /* Remove as margens da página que o navegador adiciona por padrão */
   @page {
     size: A4;
     margin: 0;
   }
 }
 
-/* Regras de Responsividade Aprimoradas */
+/* --- REGRAS DE RESPONSIVIDADE APRIMORADAS --- */
+
+/* Para telas menores (tablets e abaixo) */
 @media (max-width: 1024px) {
+    /* Ajusta o cabeçalho para empilhar em telas de tablet */
     header .max-w-7xl {
         flex-direction: column;
         align-items: flex-start;
+        gap: 1rem; /* Adiciona um espaçamento entre os blocos do header */
     }
-    header .gap-4 {
-        margin-top: 1rem;
+    
+    header .flex.items-center.gap-4 {
         width: 100%;
         justify-content: flex-start;
-        flex-wrap: wrap;
+        flex-wrap: wrap; /* Permite que os botões quebrem a linha se não couberem */
     }
 }
 
+/* Para telas pequenas (smartphones) */
 @media (max-width: 768px) {
-    .grid-cols-1.lg\:grid-cols-2, 
-    .grid-cols-1.md\:grid-cols-3, 
-    .grid-cols-1.lg\:grid-cols-3, 
-    .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 {
-        grid-template-columns: 1fr;
+    /* Transforma todos os grids principais em uma única coluna */
+    .grid {
+        grid-template-columns: 1fr !important;
     }
     
+    /* Reorganiza o cabeçalho para uma melhor visualização mobile */
     header .flex {
         flex-direction: column;
         align-items: flex-start;
     }
-    header .gap-4 {
+    
+    header .flex.items-center.gap-4 {
         align-items: flex-start;
-        flex-direction: column;
+        flex-direction: column; /* Botões ficam um abaixo do outro */
         width: 100%;
+        margin-top: 1rem;
     }
-    header .gap-4 > * {
-        width: 100%;
-        justify-content: center;
+
+    header .flex.items-center.gap-4 > * {
+        width: 100%; /* Botões ocupam a largura total */
+        justify-content: center; /* Centraliza o texto dos botões */
     }
+
+    /* Reduz o padding principal para aproveitar melhor a tela */
     main {
         padding: 1rem;
     }
+
+    /* Ajustes no modal de nova ordem para melhor usabilidade */
+    #new-order-modal .grid,
     #new-order-modal .grid-cols-1.md\:grid-cols-2 {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
-    #dashboard-section .flex-wrap {
-        justify-content: center;
+    
+    /* Melhora a visualização dos cards de ordens */
+    .card-actions {
+        flex-wrap: wrap; /* Permite que os botões de ação quebrem linha */
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+    
+    /* Centraliza o painel de login na tela */
+    #login-section {
+        padding: 1rem;
+    }
+
+    /* Ajuste de fonte para melhor leitura em telas pequenas */
+    body {
+        font-size: 14px;
+    }
+    h2 {
+        font-size: 1.125rem; /* Equivalente a text-lg do Tailwind */
+    }
+    p, label, input, button, a {
+        font-size: 1rem; /* Garante consistência */
     }
 }
