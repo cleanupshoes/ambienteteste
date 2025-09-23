@@ -549,10 +549,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (printBtn) {
-            try {
-                const docSnap = await getDoc(doc(db, 'orders', printBtn.dataset.id));
-                if (docSnap.exists()) prepareAndPrintReceipt(docSnap.data());
-            } catch (error) { alert("Erro ao buscar dados para impressão."); }
+            const orderId = printBtn.dataset.id;
+            const orderData = allOrdersCache.find(o => o.id === orderId);
+            if (orderData) {
+                prepareAndPrintReceipt(orderData);
+            } else {
+                alert("Erro ao buscar dados para impressão.");
+            }
         }
 
         if (deleteBtn) {
