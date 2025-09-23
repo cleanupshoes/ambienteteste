@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clean UP Shoes - Gerenciar Clientes</title>
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
     
-    <!-- Link para seu arquivo de CSS customizado -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-800 text-gray-200">
@@ -24,7 +20,7 @@
     <header class="bg-gray-900 shadow-lg sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <h1 class="font-logo text-3xl text-lime-400">Clean UP</h1>
+                <img src="logo.png" alt="Clean UP Shoes Logo" class="h-10">
                 <span class="text-gray-500 text-2xl font-light">|</span>
                 <h2 class="text-xl font-semibold text-gray-300 pt-1">Gerenciar Clientes</h2>
             </div>
@@ -41,7 +37,6 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Formulário de Novo Cliente -->
             <div class="md:col-span-1">
                 <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-700">
                     <h3 class="text-xl font-bold mb-4 text-gray-200">Cadastrar Novo Cliente</h3>
@@ -64,7 +59,6 @@
                     </form>
                 </div>
             </div>
-            <!-- Lista de Clientes -->
             <div class="md:col-span-2">
                 <input type="text" id="customer-search-input" placeholder="Buscar cliente por nome, telefone ou CPF..." class="w-full px-4 py-3 mb-4 text-lg text-gray-200 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500">
                 <div id="customers-table-container" class="bg-gray-900/50 rounded-lg border border-gray-700 overflow-hidden">
@@ -77,15 +71,13 @@
                             </tr>
                         </thead>
                         <tbody id="customers-table-body">
-                            <!-- Linhas da tabela serão inseridas aqui -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </main>
     
-    <!-- Link para o novo arquivo JavaScript -->
     <script src="clientes.js" type="module"></script>
 </body>
 </html>
