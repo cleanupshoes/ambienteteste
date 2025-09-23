@@ -12,7 +12,9 @@ import {
     query, 
     where, 
     onSnapshot,
-    orderBy
+    orderBy,
+    doc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 
@@ -39,13 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const newCustomerForm = document.getElementById('new-customer-form');
     const customerSearchInput = document.getElementById('customer-search-input');
     const customersTableBody = document.getElementById('customers-table-body');
+    const servicesLink = document.getElementById('services-link');
     
     let allCustomersCache = [];
     let unsubscribeFromCustomers = null;
 
     // --- AUTENTICAÇÃO E CARREGAMENTO INICIAL ---
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
         if (user) {
+            const userDocRef = doc(db, "users", user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            
+            if (userDocSnap.exists() && userDocSnap.data().role === 'admin') {
+                if (servicesLink) servicesLink.classList.remove('hidden');
+            }
+
             // Usuário está logado, pode ver a página
             listenToCustomers();
         } else {
