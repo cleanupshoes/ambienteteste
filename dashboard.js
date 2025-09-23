@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const description = `"${expense.description}"`;
             const value = `-${expense.value.toString().replace('.', ',')}`;
             csvContent += `${date},${type},${description},${value}\r\n`;
-        }
+        });
         
         if (commissionEnabled && currentFilteredSales.length > 0) {
             const totalCommission = currentFilteredSales.length * 10;
