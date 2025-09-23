@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finishedOrdersList = document.getElementById('finished-orders-list');
     const printArea = document.getElementById('print-area');
     const searchInput = document.getElementById('search-input');
+    const servicesLink = document.getElementById('services-link');
     
     // Modal de Nova Ordem / Edição
     const newOrderModal = document.getElementById('new-order-modal');
@@ -95,10 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allOrdersCache = [];
     let allCustomersCache = [];
+    let allServicesCache = [];
     let currentOrderItems = [];
     let selectedCustomerData = null;
     let unsubscribeFromOrders = null; 
     let unsubscribeFromCustomers = null;
+    let unsubscribeFromServices = null;
     let confirmCallback = null;
     let orderIdToFinish = null;
     let currentUserRole = null; // Variável para guardar a permissão do usuário
@@ -118,9 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Documento de usuário não encontrado, aplicando permissão de colaborador.");
             }
 
-            // Esconde/mostra o link do dashboard baseado na permissão
-            if (dashboardLink) {
-                dashboardLink.style.display = currentUserRole === 'admin' ? 'flex' : 'none';
+            // Esconde/mostra o link do dashboard e serviços baseado na permissão
+            if (currentUserRole === 'admin') {
+                if (dashboardLink) dashboardLink.style.display = 'flex';
+                if (servicesLink) servicesLink.classList.remove('hidden');
+            } else {
+                if (dashboardLink) dashboardLink.style.display = 'none';
+                if (servicesLink) servicesLink.classList.add('hidden');
             }
 
             // Exibe o painel principal
@@ -139,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Inicia os listeners de dados
             listenToOrders();
             listenToCustomers();
+            listenToServices();
 
         } else {
             // Usuário deslogado
@@ -147,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (loginSection) loginSection.classList.remove('hidden');
             if (unsubscribeFromOrders) unsubscribeFromOrders();
             if (unsubscribeFromCustomers) unsubscribeFromCustomers();
+            if (unsubscribeFromServices) unsubscribeFromServices();
         }
     });
 
@@ -207,6 +216,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 addOrderBtn.disabled = false;
                 addOrderBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             }
+        });
+    }
+    
+    function listenToServices() {
+        if (unsubscribeFromServices) unsubscribeFromServices();
+        const q = query(collection(db, "services"), where("ownerId", "==", companyId), orderBy("name"));
+        unsubscribeFromServices = onSnapshot(q, (snapshot) => {
+            allServicesCache = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         });
     }
 
@@ -287,6 +304,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderServiceItems() {
         if(!serviceItemsContainer) return;
         serviceItemsContainer.innerHTML = '';
+        
+        const serviceOptions = allServicesCache.map(service => 
+            `<option value="${service.name}" data-price="${service.price}">${service.name}</option>`
+        ).join('');
+
         currentOrderItems.forEach((item, index) => {
             const itemEl = document.createElement('div');
             itemEl.className = 'grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-700/50 rounded-lg relative';
@@ -295,13 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <label class="block text-sm font-medium text-gray-400">Tipo de Serviço</label>
                     <select data-index="${index}" class="service-type-select w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg">
                         <option value="" data-price="0">Selecione um serviço</option>
-                        <option value="Higienização Completa" data-price="60">Higienização Completa</option>
-                        <option value="Higienização Premium" data-price="80">Higienização Premium</option>
-                        <option value="Higienização de Boné" data-price="40">Higienização de Boné</option>
-                        <option value="Higienização de Bolsa" data-price="70">Higienização de Bolsa</option>
-                        <option value="Reparo de Pintura ou Tecido" data-price="150">Reparo de Pintura ou Tecido</option>
-                        <option value="Pintura de Midsole" data-price="100">Pintura de Midsole</option>
-                        <option value="Impermeabilização" data-price="35">Impermeabilização</option>
+                        ${serviceOptions}
                         <option value="Outro" data-price="0">Outro Valor</option>
                     </select>
                 </div>
