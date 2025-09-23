@@ -591,6 +591,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function prepareAndPrintReceipt(order) {
         const fullDate = new Date().toLocaleString('pt-BR', { dateStyle: 'long' });
+        const entryDate = (order.dataEntrada && order.dataEntrada.toDate) 
+            ? new Intl.DateTimeFormat('pt-BR').format(order.dataEntrada.toDate())
+            : 'N/A';
+
+        const itemsHtml = (order.items || []).map(item => `
+            <tr>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">${item.service}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">${item.item}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc; text-align: right;">${new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(item.price || 0)}</td>
+            </tr>
+        `).join('');
+
         const termHTML = `
             <div style="font-family: Arial, sans-serif; width: 21cm; padding: 1.5cm; font-size: 10pt; color: #000; line-height: 1.4;">
                 <div style="text-align: center; margin-bottom: 1.5em;">
@@ -614,9 +626,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p style="margin-top: 1.5em;"><strong>Nome Completo:</strong> ${order.nomeCliente}</p>
                     <p><strong>CPF/RG:</strong> ${order.cpfCliente || 'Não informado'}</p>
                 </div>
-            </div>`;
+            </div>
+            <div style="font-family: Arial, sans-serif; width: 21cm; padding: 1.5cm; font-size: 10pt; color: #000; line-height: 1.4; page-break-before: always;">
+                <div style="text-align: center; margin-bottom: 1.5em;">
+                    <img src="logo.png" alt="Clean Up Shoes Logo" style="width: 150px; margin: 0 auto;">
+                </div>
+                <h2 style="text-align: center; font-weight: bold; font-size: 14pt;">DETALHES DA ORDEM DE SERVIÇO</h2>
+                <div style="margin-top: 2em; margin-bottom: 2em; border-bottom: 1px solid #ccc; padding-bottom: 1em;">
+                    <p><strong>Cliente:</strong> ${order.nomeCliente}</p>
+                    <p><strong>OS:</strong> ${order.id.substring(0, 6).toUpperCase()}</p>
+                    <p><strong>Data de Entrada:</strong> ${entryDate}</p>
+                    ${order.tagIdentificacao ? `<p><strong>Tag de Identificação:</strong> ${order.tagIdentificacao}</p>` : ''}
+                </div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 8px; border-bottom: 2px solid #000; text-align: left;">Serviço</th>
+                            <th style="padding: 8px; border-bottom: 2px solid #000; text-align: left;">Item</th>
+                            <th style="padding: 8px; border-bottom: 2px solid #000; text-align: right;">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itemsHtml}
+                    </tbody>
+                </table>
+                <div style="margin-top: 2em; text-align: right;">
+                    <p style="font-size: 14pt; font-weight: bold;">VALOR TOTAL: ${new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(order.valorTotal || 0)}</p>
+                </div>
+                ${order.observacoes ? `
+                    <div style="margin-top: 2em;">
+                        <h3 style="font-weight: bold;">Observações:</h3>
+                        <p>${order.observacoes}</p>
+                    </div>
+                ` : ''}
+            </div>
+        `;
         printArea.innerHTML = termHTML;
         window.print();
     }
 });
-
