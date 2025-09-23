@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const expensesDetailsList = document.getElementById('expenses-details-list');
     const downloadReportBtn = document.getElementById('download-dashboard-report-btn');
     const commissionToggleBtn = document.getElementById('commission-toggle-btn');
+    const servicesLink = document.getElementById('services-link');
     
     // Modal de Confirmação
     const confirmModal = document.getElementById('confirm-modal');
@@ -82,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // VERIFICAÇÃO DE PERMISSÃO
             if (userRole === 'admin') {
+                if (servicesLink) servicesLink.classList.remove('hidden');
                 // Se for admin, continua e carrega os dados
                 setInitialDateRange();
                 listenToData();
