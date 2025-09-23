@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA DE DADOS (FIREBASE LISTENERS) ---
     function listenToCustomers() {
         if (unsubscribeFromCustomers) unsubscribeFromCustomers();
-        const q = query(collection(db, "customers"), where("ownerId" ,"==", companyId), orderBy("name"));
+        const q = query(collection(db, "customers"), where("ownerId", "==", companyId), orderBy("name"));
         unsubscribeFromCustomers = onSnapshot(q, (snapshot) => {
             allCustomersCache = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             if (addOrderBtn) {
@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
         const whatsappButtonHtml = `<a href="${whatsappUrl}" target="_blank" title="Enviar WhatsApp" class="flex items-center justify-center w-8 h-8 bg-green-600/80 text-white rounded-full hover:bg-green-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 221.9-99.6 221.9-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.8 0-67.6-9.5-97.2-27.2l-6.9-4.1-72.3 19L56 353.7l-4.4-7.3c-18.5-30.3-28.2-65.3-28.2-101.5 0-110.3 89.7-199.9 199.9-199.9 54.4 0 105.8 21.2 144.9 59.5 39.1 39.1 59.5 90.5 59.5 144.9 0 110.4-89.7 200-200 200zm101.6-121.2c-13.9-6.9-82.8-41-95.7-45.8-12.9-4.8-22.3-7.7-31.7 7.7-9.4 15.4-36.2 45.8-44.4 55.2-8.2 9.4-16.4 10.4-30.3 3.4-13.9-6.9-58.6-21.6-111.6-69.2-41.4-37.4-69.2-83.3-77.4-98.2-8.2-14.9-.1-23.1 6.9-30.3 6.1-6.1 13.9-16.4 20.8-24.6 6.9-8.2 9.4-13.9 6.9-23.1-2.5-9.4-22.3-53.7-30.3-73.2-8.2-19.5-16.4-16.4-23.1-16.4-6.9 0-13.9 0-20.8 0-6.9 0-18.5 2.5-28.2 13.9-9.4 11.4-36.2 35.2-36.2 86.6 0 51.4 37.2 100.2 42.1 107.1 4.8 6.9 73.2 111.6 177.3 156.4 25.3 11.4 45.8 18.5 61.3 23.1 16.4 4.8 30.3 4.1 41.1 1.6 12.9-3.4 41.1-16.4 47.1-32.3 6-15.9 6-29.4 4.1-32.3-2.5-3.8-11.4-6.9-25.3-13.8z"/></svg></a>`;
-        const sendPdfButtonHtml = `<button data-id="${order.id}" class="send-pdf-btn flex items-center justify-center w-8 h-8 bg-red-600/80 text-white rounded-full hover:bg-red-600 transition-colors" title="Enviar PDF"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L6.354 8.146a.5.5 0 1 0-.708.708l2 2z"/></svg></button>`;
+        const sendTermButtonHtml = `<button data-id="${order.id}" class="send-term-btn flex items-center gap-1 bg-blue-600/80 text-white px-3 py-1 rounded-full text-sm font-semibold">Enviar Termo</button>`;
         
         // --- BOTÕES DE AÇÃO ---
         const editButtonHtml = order.status === 'em_aberto' ? `<button data-id="${order.id}" class="edit-btn text-blue-400 p-1 rounded-full hover:bg-gray-700" title="Editar Ordem"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg></button>` : '';
@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${togglePaymentButtonHtml}
                 ${finishButtonHtml}
                 <button data-id="${order.id}" class="print-btn flex items-center gap-1 bg-gray-700 px-3 py-1 rounded-full text-sm font-semibold">Imprimir</button>
-                ${sendPdfButtonHtml}
+                ${sendTermButtonHtml}
                 ${whatsappButtonHtml}
                 ${deleteButtonHtml}
             </div>`;
@@ -528,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const printBtn = e.target.closest('.print-btn');
         const deleteBtn = e.target.closest('.delete-btn');
         const togglePaymentBtn = e.target.closest('.toggle-payment-btn');
-        const sendPdfBtn = e.target.closest('.send-pdf-btn');
+        const sendTermBtn = e.target.closest('.send-term-btn');
 
         if (editBtn) {
             const orderId = editBtn.dataset.id;
@@ -561,13 +561,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        if (sendPdfBtn) {
-            const orderId = sendPdfBtn.dataset.id;
+        if (sendTermBtn) {
+            const orderId = sendTermBtn.dataset.id;
             const orderData = allOrdersCache.find(o => o.id === orderId);
             if (orderData) {
-                generateAndDownloadPdf(orderData);
+                sendWhatsAppTerm(orderData);
             } else {
-                alert("Erro ao buscar dados para gerar o PDF.");
+                alert("Erro ao buscar dados para enviar o termo.");
             }
         }
 
@@ -620,7 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
 
         return `
-            <div style="font-family: Arial, sans-serif; width: 21cm; padding: 1.5cm; font-size: 10pt; color: #000; line-height: 1.4; background: white;">
+            <div style="font-family: Arial, sans-serif; width: 21cm; padding: 1.5cm; font-size: 10pt; color: #000; line-height: 1.4;">
                 <div style="text-align: center; margin-bottom: 1.5em;">
                     <img src="logo.png" alt="Clean Up Shoes Logo" style="width: 150px; margin: 0 auto;">
                 </div> <br>
@@ -643,7 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p><strong>CPF/RG:</strong> ${order.cpfCliente || 'Não informado'}</p>
                 </div>
             </div>
-            <div style="font-family: Arial, sans-serif; width: 21cm; padding: 1.5cm; font-size: 10pt; color: #000; line-height: 1.4; page-break-before: always; background: white;">
+            <div style="font-family: Arial, sans-serif; width: 21cm; padding: 1.5cm; font-size: 10pt; color: #000; line-height: 1.4; page-break-before: always;">
                 <div style="text-align: center; margin-bottom: 1.5em;">
                     <img src="logo.png" alt="Clean Up Shoes Logo" style="width: 150px; margin: 0 auto;">
                 </div>
@@ -683,34 +683,47 @@ document.addEventListener('DOMContentLoaded', () => {
         printArea.innerHTML = getReceiptHtml(order);
         window.print();
     }
+    
+    function sendWhatsAppTerm(order) {
+        const entryDate = (order.dataEntrada && order.dataEntrada.toDate) 
+            ? new Intl.DateTimeFormat('pt-BR').format(order.dataEntrada.toDate())
+            : 'N/A';
 
-    async function generateAndDownloadPdf(order) {
-        const { jsPDF } = window.jspdf;
-        const pdfElement = document.createElement('div');
-        pdfElement.innerHTML = getReceiptHtml(order);
-        document.body.appendChild(pdfElement);
+        const itemsText = (order.items || []).map(item => 
+            `- ${item.service} (${item.item}): ${new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(item.price || 0)}`
+        ).join('\n');
 
-        const pdf = new jsPDF('p', 'pt', 'a4');
-        const pages = pdfElement.children;
+        const termText = `
+*TERMO DE RESPONSABILIDADE – CLEAN UP SHOES*
+
+*Detalhes da Ordem de Serviço:*
+- *Cliente:* ${order.nomeCliente}
+- *OS:* ${order.id.substring(0, 6).toUpperCase()}
+- *Data de Entrada:* ${entryDate}
+${order.tagIdentificacao ? `- *Tag:* ${order.tagIdentificacao}` : ''}
+
+*Serviços Contratados:*
+${itemsText}
+
+*VALOR TOTAL:* ${new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(order.valorTotal || 0)}
+
+------------------------------------
+
+*Resumo dos Termos e Condições:*
+O cliente declara estar ciente e de acordo com os seguintes termos:
+1. *Avaliação Prévia:* Todos os calçados passam por uma avaliação técnica inicial.
+2. *Riscos do Processo:* Podem ocorrer alterações de cor, textura ou desgaste, especialmente em peças frágeis.
+3. *Garantia de Serviço:* Comprometemo-nos a usar as melhores técnicas, mas não nos responsabilizamos por danos ligados à fragilidade pré-existente do calçado.
+4. *Prazos e Retirada:* O cliente deve retirar o calçado em até 30 dias corridos após notificação de conclusão.
+5. *Objetos Pessoais:* Não nos responsabilizamos por objetos deixados dentro dos calçados.
+6. *Autorização:* Ao contratar o serviço, o cliente autoriza sua execução e declara estar ciente destas condições.
+        `;
+
+        const clientPhone = order.telefoneCliente || '';
+        const formattedPhone = clientPhone.replace(/\D/g, '');
+        const encodedMessage = encodeURIComponent(termText);
+        const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
         
-        for (let i = 0; i < pages.length; i++) {
-            const canvas = await html2canvas(pages[i], {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: '#ffffff'
-            });
-            const imgData = canvas.toDataURL('image/png');
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            
-            if (i > 0) {
-                pdf.addPage();
-            }
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        }
-
-        pdf.save(`os_${order.id.substring(0, 6).toUpperCase()}.pdf`);
-        document.body.removeChild(pdfElement);
+        window.open(whatsappUrl, '_blank');
     }
 });
