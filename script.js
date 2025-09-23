@@ -5,22 +5,22 @@
 
 // --- IMPORTAÇÕES DO FIREBASE ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import {
-    getAuth,
-    onAuthStateChanged,
-    signInWithEmailAndPassword,
+import { 
+    getAuth, 
+    onAuthStateChanged, 
+    signInWithEmailAndPassword, 
     signOut
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import {
-    getFirestore,
-    collection,
-    addDoc,
-    query,
-    where,
-    doc,
-    updateDoc,
-    getDoc,
-    deleteDoc,
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    query, 
+    where, 
+    doc, 
+    updateDoc, 
+    getDoc, 
+    deleteDoc, 
     Timestamp,
     onSnapshot,
     orderBy
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     const servicesLink = document.getElementById('services-link');
     const mainContent = document.querySelector('main');
-
+    
     // Modal de Nova Ordem / Edição
     const newOrderModal = document.getElementById('new-order-modal');
     const modalContent = document.getElementById('modal-content');
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newOrderForm = document.getElementById('new-order-form');
     const saveOrderBtn = document.getElementById('save-order-btn');
     const editingOrderIdInput = document.getElementById('editing-order-id');
-
+    
     const customerSearchInput = document.getElementById('customer-search-input');
     const customerSearchResults = document.getElementById('customer-search-results');
     const selectedCustomerIdInput = document.getElementById('selected-customer-id');
@@ -88,14 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalValueDisplay = document.getElementById('total-value-display');
     const observationsInput = document.getElementById('observations');
     const paymentStatusCheckbox = document.getElementById('payment-status-checkbox');
-
+    
     // Modal de Confirmação
     const confirmModal = document.getElementById('confirm-modal');
     const confirmModalContent = document.getElementById('confirm-modal-content');
     const confirmModalText = document.getElementById('confirm-modal-text');
     const confirmCancelBtn = document.getElementById('confirm-cancel-btn');
     const confirmOkBtn = document.getElementById('confirm-ok-btn');
-
+    
     // Modal de Finalização
     const finishOrderModal = document.getElementById('finish-order-modal');
     const finishOrderModalContent = document.getElementById('finish-order-modal-content');
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allServicesCache = [];
     let currentOrderItems = [];
     let selectedCustomerData = null;
-    let unsubscribeFromOrders = null;
+    let unsubscribeFromOrders = null; 
     let unsubscribeFromCustomers = null;
     let unsubscribeFromServices = null;
     let confirmCallback = null;
@@ -124,9 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const userDocSnap = await getDoc(userDocRef);
 
             if (userDocSnap.exists()) {
-                currentUserRole = userDocSnap.data().role;
+                currentUserRole = userDocSnap.data().role; 
             } else {
-                currentUserRole = 'colaborador';
+                currentUserRole = 'colaborador'; 
                 console.log("Documento de usuário não encontrado, aplicando permissão de colaborador.");
             }
 
@@ -140,21 +140,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (servicesLink) servicesLink.classList.add('hidden');
                 if (isMobile) {
                     mainContent.innerHTML = '<p class="text-center text-gray-400 p-8">A versão mobile é restrita a administradores.</p>';
-                    return;
+                    return; 
                 }
             }
 
             if (loginSection) loginSection.classList.add('hidden');
             if (dashboardSection) dashboardSection.classList.remove('hidden');
-
+            
             if(addOrderBtn && allCustomersCache.length > 0) {
                 addOrderBtn.disabled = false;
                 addOrderBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            } else {
+            } else if (addOrderBtn) {
                  addOrderBtn.disabled = true;
                  addOrderBtn.classList.add('opacity-50', 'cursor-not-allowed');
             }
-
+            
             listenToOrders();
             listenToCustomers();
             listenToServices();
@@ -202,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- EVENTOS DE MODAIS ---
     if(addOrderBtn) addOrderBtn.addEventListener('click', () => {
         resetNewOrderForm();
-        modalTitle.textContent = "Nova Ordem de Serviço";
-        saveOrderBtn.textContent = "Salvar Ordem";
+        if (modalTitle) modalTitle.textContent = "Nova Ordem de Serviço";
+        if (saveOrderBtn) saveOrderBtn.textContent = "Salvar Ordem";
         openModal(newOrderModal, modalContent);
     });
 
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
+    
     function listenToServices() {
         if (unsubscribeFromServices) unsubscribeFromServices();
         const q = query(collection(db, "services"), where("ownerId", "==", companyId), orderBy("name"));
@@ -249,49 +249,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA DE BUSCA DE CLIENTES (NO MODAL) ---
     if(customerSearchInput) customerSearchInput.addEventListener('input', () => {
         const searchTerm = customerSearchInput.value.toLowerCase();
-        customerSearchResults.innerHTML = '';
-        if (!searchTerm) {
-            customerSearchResults.classList.add('hidden');
-            return;
-        }
-        const filtered = allCustomersCache.filter(c => c.name.toLowerCase().includes(searchTerm));
-        if (filtered.length > 0) {
-            filtered.forEach(customer => {
-                const item = document.createElement('div');
-                item.className = 'p-2 hover:bg-gray-700 cursor-pointer';
-                item.textContent = customer.name;
-                item.dataset.id = customer.id;
-                item.dataset.phone = customer.phone;
-                item.dataset.cpf = customer.cpf || '';
-                customerSearchResults.appendChild(item);
-            });
-            customerSearchResults.classList.remove('hidden');
-        } else {
-            customerSearchResults.classList.add('hidden');
+        if (customerSearchResults) {
+            customerSearchResults.innerHTML = '';
+            if (!searchTerm) {
+                customerSearchResults.classList.add('hidden');
+                return;
+            }
+            const filtered = allCustomersCache.filter(c => c.name.toLowerCase().includes(searchTerm));
+            if (filtered.length > 0) {
+                filtered.forEach(customer => {
+                    const item = document.createElement('div');
+                    item.className = 'p-2 hover:bg-gray-700 cursor-pointer';
+                    item.textContent = customer.name;
+                    item.dataset.id = customer.id;
+                    item.dataset.phone = customer.phone;
+                    item.dataset.cpf = customer.cpf || '';
+                    customerSearchResults.appendChild(item);
+                });
+                customerSearchResults.classList.remove('hidden');
+            } else {
+                customerSearchResults.classList.add('hidden');
+            }
         }
     });
 
     if(customerSearchResults) customerSearchResults.addEventListener('click', (e) => {
         if (e.target.tagName === 'DIV') {
-            customerSearchInput.value = e.target.textContent;
-            selectedCustomerIdInput.value = e.target.dataset.id;
-            clientPhoneInput.value = e.target.dataset.phone;
+            if (customerSearchInput) customerSearchInput.value = e.target.textContent;
+            if (selectedCustomerIdInput) selectedCustomerIdInput.value = e.target.dataset.id;
+            if (clientPhoneInput) clientPhoneInput.value = e.target.dataset.phone;
             selectedCustomerData = allCustomersCache.find(c => c.id === e.target.dataset.id);
             customerSearchResults.classList.add('hidden');
         }
     });
 
     // --- LÓGICA DO FORMULÁRIO DE NOVA ORDEM / EDIÇÃO ---
+    
+    // ✅ CORREÇÃO APLICADA AQUI ✅
+    // Função mais segura para limpar o formulário, verificando se cada elemento existe
     function resetNewOrderForm() {
-        if(newOrderForm) newOrderForm.reset();
-        editingOrderIdInput.value = '';
+        if (newOrderForm) newOrderForm.reset();
+        if (editingOrderIdInput) editingOrderIdInput.value = '';
+        if (identificationTagInput) identificationTagInput.value = '';
+        if (customerSearchInput) customerSearchInput.value = '';
+        if (clientPhoneInput) clientPhoneInput.value = '';
+        if (observationsInput) observationsInput.value = '';
+        if (paymentStatusCheckbox) paymentStatusCheckbox.checked = false;
+        
         selectedCustomerData = null;
         currentOrderItems = [];
-        if(serviceItemsContainer) serviceItemsContainer.innerHTML = '';
-        if(identificationTagInput) identificationTagInput.value = '';
-        addServiceItem();
+        
+        if (serviceItemsContainer) {
+            serviceItemsContainer.innerHTML = '';
+            addServiceItem(); // Adiciona o primeiro item de serviço
+        }
     }
-
+    
     function addServiceItem(item = { service: '', item: '', price: 0 }) {
         currentOrderItems.push(item);
         renderServiceItems();
@@ -304,9 +317,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateServiceItem(index, field, value) {
         currentOrderItems[index][field] = value;
-        if (field === 'price') calculateTotal();
+        if (field === 'price' || field === 'service') {
+            calculateTotal();
+        }
     }
-
+    
     function calculateTotal() {
         const total = currentOrderItems.reduce((sum, item) => sum + parseFloat(item.price || 0), 0);
         if(totalValueDisplay) totalValueDisplay.textContent = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total);
@@ -315,8 +330,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderServiceItems() {
         if(!serviceItemsContainer) return;
         serviceItemsContainer.innerHTML = '';
-
-        const serviceOptions = allServicesCache.map(service =>
+        
+        const serviceOptions = allServicesCache.map(service => 
             `<option value="${service.name}" data-price="${service.price}">${service.name}</option>`
         ).join('');
 
@@ -334,25 +349,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-400">Valor (R$)</label>
-                    <input type="number" data-index="${index}" class="service-value-input w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg" value="${item.price}" required>
+                    <input type="number" step="0.01" data-index="${index}" class="service-value-input w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg" value="${item.price || 0}" required>
                 </div>
                 <div class="md:col-span-3">
                     <label class="block text-sm font-medium text-gray-400">Modelo do Tênis / Item</label>
-                    <input type="text" data-index="${index}" class="service-item-input w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg" value="${item.item}" required>
+                    <input type="text" data-index="${index}" class="service-item-input w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg" value="${item.item || ''}" required>
                 </div>
                 ${currentOrderItems.length > 1 ? `<button type="button" data-index="${index}" class="remove-service-btn absolute top-2 right-2 text-red-400">&times;</button>` : ''}
             `;
             const valueInput = itemEl.querySelector('.service-value-input');
             const typeSelect = itemEl.querySelector('.service-type-select');
-            typeSelect.value = item.service;
-            valueInput.readOnly = item.service && item.service !== 'Outro';
+            if (typeSelect) typeSelect.value = item.service;
+            if (valueInput) valueInput.readOnly = item.service && item.service !== 'Outro';
+            
             serviceItemsContainer.appendChild(itemEl);
         });
         calculateTotal();
     }
 
     if(addServiceBtn) addServiceBtn.addEventListener('click', () => addServiceItem());
-
+    
     if(serviceItemsContainer) {
         serviceItemsContainer.addEventListener('change', (e) => {
             const index = e.target.dataset.index;
@@ -362,13 +378,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const valueInput = e.target.closest('.grid').querySelector('.service-value-input');
                 updateServiceItem(index, 'service', e.target.value);
                 if (e.target.value === 'Outro') {
-                    valueInput.value = '';
-                    valueInput.readOnly = false;
-                    valueInput.focus();
+                    if (valueInput) {
+                        valueInput.value = '';
+                        valueInput.readOnly = false;
+                        valueInput.focus();
+                    }
                     updateServiceItem(index, 'price', 0);
                 } else {
-                    valueInput.value = price;
-                    valueInput.readOnly = true;
+                    if (valueInput) {
+                        valueInput.value = price;
+                        valueInput.readOnly = true;
+                    }
                     updateServiceItem(index, 'price', price);
                 }
             }
@@ -386,31 +406,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if(newOrderForm) newOrderForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!selectedCustomerData) return alert("Por favor, selecione um cliente da lista.");
-        if (currentOrderItems.some(item => !item.service || !item.item)) return alert("Preencha todos os campos de serviço e item.");
-
+        if (currentOrderItems.some(item => !item.service || !item.item || !item.price)) return alert("Preencha todos os campos de serviço, item e valor.");
+        
         const totalValue = currentOrderItems.reduce((sum, item) => sum + parseFloat(item.price || 0), 0);
-
+        
         const orderData = {
             customerId: selectedCustomerData.id,
             nomeCliente: selectedCustomerData.name,
             telefoneCliente: selectedCustomerData.phone,
             cpfCliente: selectedCustomerData.cpf || '',
-            tagIdentificacao: identificationTagInput.value,
+            tagIdentificacao: identificationTagInput ? identificationTagInput.value : '',
             items: currentOrderItems,
             valorTotal: totalValue,
-            observacoes: observationsInput.value,
-            paymentStatus: paymentStatusCheckbox.checked ? 'pago' : 'pendente',
+            observacoes: observationsInput ? observationsInput.value : '',
+            paymentStatus: paymentStatusCheckbox && paymentStatusCheckbox.checked ? 'pago' : 'pendente',
             ownerId: companyId
         };
 
-        const editingId = editingOrderIdInput.value;
+        const editingId = editingOrderIdInput ? editingOrderIdInput.value : null;
 
         try {
             if (editingId) {
-                // Modo Edição
                 await updateDoc(doc(db, "orders", editingId), orderData);
             } else {
-                // Modo Criação
                 orderData.dataEntrada = Timestamp.fromDate(new Date());
                 orderData.dataFinalizacao = null;
                 orderData.status = 'em_aberto';
@@ -462,14 +480,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         const cardBorderColor = order.status === 'em_aberto' ? 'border-yellow-400' : 'border-emerald-500';
         card.className = `bg-gray-900/70 p-4 rounded-lg shadow-lg border-l-4 ${cardBorderColor}`;
-
-        const entryDate = (order.dataEntrada && order.dataEntrada.toDate)
+        
+        const entryDate = (order.dataEntrada && order.dataEntrada.toDate) 
             ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(order.dataEntrada.toDate())
             : 'N/A';
 
         const formattedValue = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(order.valorTotal || 0);
         const itemsHtml = (order.items || []).map(item => `<div class="flex justify-between text-sm"><p>${item.service} (${item.item})</p><p>${new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(item.price || 0)}</p></div>`).join('');
-
+        
         const paymentStatusText = (order.paymentStatus === 'pago') ? 'Pago' : 'Pendente';
         const paymentStatusClass = (order.paymentStatus === 'pago') ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400';
         const paymentStatusHtml = `<span class="px-2 py-1 text-xs font-semibold rounded-full ${paymentStatusClass}">${paymentStatusText}</span>`;
@@ -477,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const technicianInfo = order.status === 'finalizado' && order.finalizadoPor
             ? ` &bull; <span class="font-semibold">Finalizado por: ${order.finalizadoPor}</span>`
             : '';
-
+            
         const tagHtml = order.tagIdentificacao ? ` &bull; <span>Tag: ${order.tagIdentificacao}</span>` : '';
 
         const clientPhone = order.telefoneCliente || '';
@@ -488,8 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const whatsappUrl = `https://wa.me/55${formattedPhone}?text=${encodedMessage}`;
         const whatsappButtonHtml = `<a href="${whatsappUrl}" target="_blank" title="Enviar WhatsApp" class="flex items-center justify-center w-8 h-8 bg-green-600/80 text-white rounded-full hover:bg-green-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 221.9-99.6 221.9-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.8 0-67.6-9.5-97.2-27.2l-6.9-4.1-72.3 19L56 353.7l-4.4-7.3c-18.5-30.3-28.2-65.3-28.2-101.5 0-110.3 89.7-199.9 199.9-199.9 54.4 0 105.8 21.2 144.9 59.5 39.1 39.1 59.5 90.5 59.5 144.9 0 110.4-89.7 200-200 200zm101.6-121.2c-13.9-6.9-82.8-41-95.7-45.8-12.9-4.8-22.3-7.7-31.7 7.7-9.4 15.4-36.2 45.8-44.4 55.2-8.2 9.4-16.4 10.4-30.3 3.4-13.9-6.9-58.6-21.6-111.6-69.2-41.4-37.4-69.2-83.3-77.4-98.2-8.2-14.9-.1-23.1 6.9-30.3 6.1-6.1 13.9-16.4 20.8-24.6 6.9-8.2 9.4-13.9 6.9-23.1-2.5-9.4-22.3-53.7-30.3-73.2-8.2-19.5-16.4-16.4-23.1-16.4-6.9 0-13.9 0-20.8 0-6.9 0-18.5 2.5-28.2 13.9-9.4 11.4-36.2 35.2-36.2 86.6 0 51.4 37.2 100.2 42.1 107.1 4.8 6.9 73.2 111.6 177.3 156.4 25.3 11.4 45.8 18.5 61.3 23.1 16.4 4.8 30.3 4.1 41.1 1.6 12.9-3.4 41.1-16.4 47.1-32.3 6-15.9 6-29.4 4.1-32.3-2.5-3.8-11.4-6.9-25.3-13.8z"/></svg></a>`;
         const sendPdfButtonHtml = `<button data-id="${order.id}" class="send-pdf-btn flex items-center justify-center w-8 h-8 bg-red-600/80 text-white rounded-full hover:bg-red-600 transition-colors" title="Enviar PDF"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L6.354 8.146a.5.5 0 1 0-.708.708l2 2z"/></svg></button>`;
-
-        // --- BOTÕES DE AÇÃO ---
+        
         const editButtonHtml = order.status === 'em_aberto' ? `<button data-id="${order.id}" class="edit-btn text-blue-400 p-1 rounded-full hover:bg-gray-700" title="Editar Ordem"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg></button>` : '';
         const togglePaymentButtonHtml = (order.paymentStatus !== 'pago' && order.status === 'em_aberto') ? `<button data-id="${order.id}" class="toggle-payment-btn flex items-center gap-1 bg-cyan-800/50 text-cyan-300 px-3 py-1 rounded-full text-sm font-semibold">Marcar Pago</button>` : '';
         const finishButtonHtml = order.status === 'em_aberto' ? `<button data-id="${order.id}" class="finish-btn flex items-center gap-1 bg-green-800/50 text-green-300 px-3 py-1 rounded-full text-sm font-semibold">Finalizar</button>` : '';
@@ -508,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span>OS: ${order.id.substring(0, 6).toUpperCase()}</span>${tagHtml} &bull; <span>Entrada: ${entryDate}</span>${technicianInfo}
             </div>
             ${order.observacoes ? `<p class="text-sm mt-3 pt-3 border-t border-gray-700">${order.observacoes}</p>` : ''}
-            <div class="flex justify-end items-center mt-4 space-x-2">
+            <div class="flex justify-end items-center flex-wrap gap-2 mt-4">
                 ${editButtonHtml}
                 ${togglePaymentButtonHtml}
                 ${finishButtonHtml}
@@ -521,32 +538,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function populateEditForm(order) {
-        resetNewOrderForm();
+        resetNewOrderForm(); 
+        
+        if (editingOrderIdInput) editingOrderIdInput.value = order.id;
+        if (modalTitle) modalTitle.textContent = "Editar Ordem de Serviço";
+        if (saveOrderBtn) saveOrderBtn.textContent = "Salvar Alterações";
 
-        editingOrderIdInput.value = order.id;
-        modalTitle.textContent = "Editar Ordem de Serviço";
-        saveOrderBtn.textContent = "Salvar Alterações";
-
-        customerSearchInput.value = order.nomeCliente;
-        clientPhoneInput.value = order.telefoneCliente;
-        identificationTagInput.value = order.tagIdentificacao || '';
+        if (customerSearchInput) customerSearchInput.value = order.nomeCliente;
+        if (clientPhoneInput) clientPhoneInput.value = order.telefoneCliente;
+        if (identificationTagInput) identificationTagInput.value = order.tagIdentificacao || '';
+        
         selectedCustomerData = {
             id: order.customerId,
             name: order.nomeCliente,
             phone: order.telefoneCliente,
             cpf: order.cpfCliente
         };
-
+        
         currentOrderItems = [];
-        serviceItemsContainer.innerHTML = '';
+        if (serviceItemsContainer) serviceItemsContainer.innerHTML = '';
         if(order.items && order.items.length > 0){
              order.items.forEach(item => addServiceItem(item));
         } else {
             addServiceItem();
         }
-
-        observationsInput.value = order.observacoes || '';
-        paymentStatusCheckbox.checked = order.paymentStatus === 'pago';
+       
+        if (observationsInput) observationsInput.value = order.observacoes || '';
+        if (paymentStatusCheckbox) paymentStatusCheckbox.checked = order.paymentStatus === 'pago';
     }
 
     document.body.addEventListener('click', async (e) => {
@@ -567,15 +585,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (togglePaymentBtn) {
-            try { await updateDoc(doc(db, 'orders', togglePaymentBtn.dataset.id), { paymentStatus: 'pago' }); }
+            try { await updateDoc(doc(db, 'orders', togglePaymentBtn.dataset.id), { paymentStatus: 'pago' }); } 
             catch (error) { alert("Erro ao atualizar o status do pagamento."); }
         }
 
         if (finishBtn) {
             orderIdToFinish = finishBtn.dataset.id;
-            technicianNameInput.value = '';
+            if (technicianNameInput) technicianNameInput.value = '';
             openModal(finishOrderModal, finishOrderModalContent);
-            technicianNameInput.focus();
+            if (technicianNameInput) technicianNameInput.focus();
         }
 
         if (printBtn) {
@@ -600,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (deleteBtn) {
             if (currentUserRole !== 'admin') return alert("Você não tem permissão para excluir ordens.");
-
+            
             showConfirm("Tem certeza que deseja excluir esta ordem?", async () => {
                 try { await deleteDoc(doc(db, 'orders', deleteBtn.dataset.id)); }
                 catch (error) { alert("Erro ao excluir a ordem."); }
@@ -608,13 +626,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Evento de submit do formulário de finalização
     if (finishOrderForm) {
         finishOrderForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const technicianName = technicianNameInput.value;
+            const technicianName = technicianNameInput ? technicianNameInput.value : '';
             if (!technicianName.trim()) return alert("O nome do responsável é obrigatório.");
-
+            
             if (orderIdToFinish) {
                 try {
                     await updateDoc(doc(db, 'orders', orderIdToFinish), {
@@ -630,10 +647,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
+    
     function getReceiptHtml(order) {
         const fullDate = new Date().toLocaleString('pt-BR', { dateStyle: 'long' });
-        const entryDate = (order.dataEntrada && order.dataEntrada.toDate)
+        const entryDate = (order.dataEntrada && order.dataEntrada.toDate) 
             ? new Intl.DateTimeFormat('pt-BR').format(order.dataEntrada.toDate())
             : 'N/A';
 
@@ -706,8 +723,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function prepareAndPrintReceipt(order) {
-        printArea.innerHTML = getReceiptHtml(order);
-        window.print();
+        if (printArea) {
+            printArea.innerHTML = getReceiptHtml(order);
+            window.print();
+        }
     }
 
     async function generateAndDownloadPdf(order) {
@@ -718,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const pdf = new jsPDF('p', 'pt', 'a4');
         const pages = pdfElement.children;
-
+        
         for (let i = 0; i < pages.length; i++) {
             const canvas = await html2canvas(pages[i], {
                 scale: 2,
@@ -729,7 +748,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const imgProps = pdf.getImageProperties(imgData);
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
+            
             if (i > 0) {
                 pdf.addPage();
             }
