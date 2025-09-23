@@ -59,3 +59,22 @@ body {
     margin: 0;
   }
 }
+
+/* Regras de Responsividade */
+@media (max-width: 768px) {
+    header .flex-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .grid-cols-1.lg\:grid-cols-2, .grid-cols-1.md\:grid-cols-3, .grid-cols-1.lg\:grid-cols-3, .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+    header .gap-4 {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+    main {
+        padding: 1rem;
+    }
+}
