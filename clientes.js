@@ -37,6 +37,16 @@ const companyId = "oNor7X6GwkcgWtsvyL0Dg4tamwI3";
 
 document.addEventListener('DOMContentLoaded', () => {
     
+    // --- LÓGICA DO MENU HAMBÚRGUER ---
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuLinks = document.getElementById('menu-links');
+
+    if (menuToggle && menuLinks) {
+        menuToggle.addEventListener('click', () => {
+            menuLinks.classList.toggle('hidden');
+        });
+    }
+
     // --- SELETORES DE ELEMENTOS ---
     const newCustomerForm = document.getElementById('new-customer-form');
     const customerSearchInput = document.getElementById('customer-search-input');
