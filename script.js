@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const printArea = document.getElementById('print-area');
     const searchInput = document.getElementById('search-input');
     const servicesLink = document.getElementById('services-link');
+    const mainContent = document.querySelector('main');
     
     // Modal de Nova Ordem / Edição
     const newOrderModal = document.getElementById('new-order-modal');
@@ -122,12 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Esconde/mostra o link do dashboard e serviços baseado na permissão
+            const isMobile = window.innerWidth <= 768;
+
             if (currentUserRole === 'admin') {
                 if (dashboardLink) dashboardLink.style.display = 'flex';
                 if (servicesLink) servicesLink.classList.remove('hidden');
             } else {
                 if (dashboardLink) dashboardLink.style.display = 'none';
                 if (servicesLink) servicesLink.classList.add('hidden');
+                if (isMobile) {
+                    mainContent.innerHTML = '<p class="text-center text-gray-400 p-8">A versão mobile é restrita a administradores.</p>';
+                    return; // Interrompe a execução para colaboradores em mobile
+                }
             }
 
             // Exibe o painel principal
@@ -646,7 +653,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <ol style="list-style-position: inside; padding-left: 0;">
                     <li style="margin-bottom: 0.5em;"><strong>Avaliação Prévia:</strong> Todos os calçados recebidos passam por uma avaliação técnica, na qual são verificados o estado geral, materiais, costuras, colas, solado e eventuais avarias pré-existentes.</li> <br>
                     <li style="margin-bottom: 0.5em;"><strong>Riscos do Processo:</strong> Devido à variedade de materiais e técnicas, podem ocorrer alterações de cor, textura, desbotamento, descolamento ou desgaste natural, especialmente em peças frágeis ou antigas.</li> <br>
-                    <li style="margin-bottom: 0.5em;"><strong>Garantia de Serviço:</strong> A Clean Up Shoes compromete-se a prestar o melhor serviço com produtos e técnicas profissionais, mas não se responsabiliza por danos ligados à fragilidade pré-existente do calçado.</li> <br>
+                    <li style="margin-bottom: 0.5em;"><strong>Garantia de Serviço:</strong> A Clean UP Shoes compromete-se a prestar o melhor serviço com produtos e técnicas profissionais, mas não se responsabiliza por danos ligados à fragilidade pré-existente do calçado.</li> <br>
                     <li style="margin-bottom: 0.5em;"><strong>Prazos e Retirada:</strong> O prazo médio para entrega será informado no recebimento. O cliente deve retirar o calçado em até 30 dias corridos após notificação de conclusão. Após isso, isentamo-nos de responsabilidade.</li> <br>
                     <li style="margin-bottom: 0.5em;"><strong>Objetos Pessoais:</strong> Não nos responsabilizamos por objetos deixados dentro dos calçados, como palmilhas, cadarços personalizados, etiquetas, etc.</li> <br>
                     <li style="margin-bottom: 0.5em;"><strong>Autorização:</strong> Ao assinar este termo, o cliente autoriza a execução do serviço e declara estar ciente de todas as condições aqui descritas.</li> <br>
