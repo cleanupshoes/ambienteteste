@@ -14,7 +14,7 @@ body {
 
 /* Estilo para o gradiente dos botões principais */
 .btn-gradient {
-    background-image: linear-gradient(to right, #84cc16, #a3e635);
+    background-image: linear-gradient(to right, #00D577, #00F088);
 }
 
 /* Regras de Impressão: */
