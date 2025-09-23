@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadReportBtn = document.getElementById('download-dashboard-report-btn');
     const commissionToggleBtn = document.getElementById('commission-toggle-btn');
     const servicesLink = document.getElementById('services-link');
+    const mainContent = document.querySelector('main');
     
     // Modal de Confirmação
     const confirmModal = document.getElementById('confirm-modal');
@@ -81,16 +82,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 userRole = userDocSnap.data().role;
             }
 
-            // VERIFICAÇÃO DE PERMISSÃO
+            // VERIFICAÇÃO DE PERMISSÃO E DISPOSITIVO
+            const isMobile = window.innerWidth <= 768;
+
             if (userRole === 'admin') {
                 if (servicesLink) servicesLink.classList.remove('hidden');
-                // Se for admin, continua e carrega os dados
                 setInitialDateRange();
                 listenToData();
             } else {
-                // Se não for admin, nega o acesso
-                alert("Acesso negado. Esta área é restrita aos administradores.");
-                window.location.href = 'index.html';
+                if(isMobile) {
+                    mainContent.innerHTML = '<p class="text-center text-gray-400 p-8">A versão mobile é restrita a administradores.</p>';
+                } else {
+                    alert("Acesso negado. Esta área é restrita aos administradores.");
+                    window.location.href = 'index.html';
+                }
             }
         } else {
             // Se não estiver logado, redireciona para a página principal
@@ -286,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const description = `"${expense.description}"`;
             const value = `-${expense.value.toString().replace('.', ',')}`;
             csvContent += `${date},${type},${description},${value}\r\n`;
-        });
+        }
         
         if (commissionEnabled && currentFilteredSales.length > 0) {
             const totalCommission = currentFilteredSales.length * 10;
