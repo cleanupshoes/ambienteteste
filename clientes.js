@@ -18,7 +18,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 
-// --- INICIALIZAÇÃO E CONFIGURAÇÃO DO FIREBASE (CORRIGIDO) ---
+// --- INICIALIZAÇÃO E CONFIGURAÇÃO DO FIREBASE ---
 const firebaseConfig = {
   apiKey: "AIzaSyD0rAIgby5QLjhri3OD_KuEBVLCRrtkobE",
   authDomain: "cleanupshoes.firebaseapp.com",
@@ -32,7 +32,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// --- ID DA CONTA DA LOJA (COMPARTILHADO) ---
+// --- ID DA CONTA DA LOJA (COMPARTILhado) ---
 const companyId = "oNor7X6GwkcgWtsvyL0Dg4tamwI3";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             menuLinks.classList.toggle('hidden');
         });
     }
-
+    
     // --- SELETORES DE ELEMENTOS ---
     const newCustomerForm = document.getElementById('new-customer-form');
     const customerSearchInput = document.getElementById('customer-search-input');
@@ -106,6 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if(customerSearchInput) customerSearchInput.addEventListener('input', renderFilteredCustomers);
 
     function renderFilteredCustomers() {
+        // ✅ CORREÇÃO APLICADA AQUI ✅
+        // Verifica se o elemento de busca existe antes de tentar ler seu valor.
+        if (!customerSearchInput) {
+            renderCustomersTable(allCustomersCache); // Se não houver busca, mostra todos.
+            return;
+        }
+
         const searchTerm = customerSearchInput.value.toLowerCase();
         const filtered = allCustomersCache.filter(customer => 
             customer.name.toLowerCase().includes(searchTerm) || 
