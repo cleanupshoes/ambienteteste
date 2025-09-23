@@ -595,17 +595,17 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="font-family: Arial, sans-serif; width: 21cm; padding: 1.5cm; font-size: 10pt; color: #000; line-height: 1.4;">
                 <div style="text-align: center; margin-bottom: 1.5em;">
                     <img src="logo.png" alt="Clean Up Shoes Logo" style="width: 150px; margin: 0 auto;">
-                </div>
-                <h2 style="text-align: center; font-weight: bold; font-size: 14pt;">TERMO DE RESPONSABILIDADE – CLEAN UP SHOES</h2>
-                <p style="text-align: center; font-size: 9pt; margin-bottom: 1.5em;">CNPJ: 51.192.646/0001-59<br>Endereço: Av. Gramal, 1521, sala 6 - Bairro Campeche, Florianópolis/SC – CEP: 88063-080</p>
-                <p>O cliente declara estar ciente e de acordo com os termos abaixo ao contratar os serviços da Clean Up Shoes:</p>
+                </div> <br>
+                <h2 style="text-align: center; font-weight: bold; font-size: 14pt;">TERMO DE RESPONSABILIDADE – CLEAN UP SHOES</h2> <br>
+                <p style="text-align: center; font-size: 9pt; margin-bottom: 1.5em;">CNPJ: 51.192.646/0001-59<br>Endereço: Av. Gramal, 1521, sala 6 - Bairro Campeche, Florianópolis/SC – CEP: 88063-080</p> <br>
+                <p>O cliente declara estar ciente e de acordo com os termos abaixo ao contratar os serviços da Clean Up Shoes:</p> <br>
                 <ol style="list-style-position: inside; padding-left: 0;">
-                    <li style="margin-bottom: 0.5em;"><strong>Avaliação Prévia:</strong> Todos os calçados recebidos passam por uma avaliação técnica, na qual são verificados o estado geral, materiais, costuras, colas, solado e eventuais avarias pré-existentes.</li>
-                    <li style="margin-bottom: 0.5em;"><strong>Riscos do Processo:</strong> Devido à variedade de materiais e técnicas, podem ocorrer alterações de cor, textura, desbotamento, descolamento ou desgaste natural, especialmente em peças frágeis ou antigas.</li>
-                    <li style="margin-bottom: 0.5em;"><strong>Garantia de Serviço:</strong> A Clean Up Shoes compromete-se a prestar o melhor serviço com produtos e técnicas profissionais, mas não se responsabiliza por danos ligados à fragilidade pré-existente do calçado.</li>
-                    <li style="margin-bottom: 0.5em;"><strong>Prazos e Retirada:</strong> O prazo médio para entrega será informado no recebimento. O cliente deve retirar o calçado em até 30 dias corridos após notificação de conclusão. Após isso, isentamo-nos de responsabilidade.</li>
-                    <li style="margin-bottom: 0.5em;"><strong>Objetos Pessoais:</strong> Não nos responsabilizamos por objetos deixados dentro dos calçados, como palmilhas, cadarços personalizados, etiquetas, etc.</li>
-                    <li style="margin-bottom: 0.5em;"><strong>Autorização:</strong> Ao assinar este termo, o cliente autoriza a execução do serviço e declara estar ciente de todas as condições aqui descritas.</li>
+                    <li style="margin-bottom: 0.5em;"><strong>Avaliação Prévia:</strong> Todos os calçados recebidos passam por uma avaliação técnica, na qual são verificados o estado geral, materiais, costuras, colas, solado e eventuais avarias pré-existentes.</li> <br>
+                    <li style="margin-bottom: 0.5em;"><strong>Riscos do Processo:</strong> Devido à variedade de materiais e técnicas, podem ocorrer alterações de cor, textura, desbotamento, descolamento ou desgaste natural, especialmente em peças frágeis ou antigas.</li> <br>
+                    <li style="margin-bottom: 0.5em;"><strong>Garantia de Serviço:</strong> A Clean Up Shoes compromete-se a prestar o melhor serviço com produtos e técnicas profissionais, mas não se responsabiliza por danos ligados à fragilidade pré-existente do calçado.</li> <br>
+                    <li style="margin-bottom: 0.5em;"><strong>Prazos e Retirada:</strong> O prazo médio para entrega será informado no recebimento. O cliente deve retirar o calçado em até 30 dias corridos após notificação de conclusão. Após isso, isentamo-nos de responsabilidade.</li> <br>
+                    <li style="margin-bottom: 0.5em;"><strong>Objetos Pessoais:</strong> Não nos responsabilizamos por objetos deixados dentro dos calçados, como palmilhas, cadarços personalizados, etiquetas, etc.</li> <br>
+                    <li style="margin-bottom: 0.5em;"><strong>Autorização:</strong> Ao assinar este termo, o cliente autoriza a execução do serviço e declara estar ciente de todas as condições aqui descritas.</li> <br>
                 </ol>
                 <p style="text-align: right; margin-top: 2em;">Florianópolis, ${fullDate}</p>
                 <div style="margin-top: 3em;">
@@ -619,3 +619,4 @@ document.addEventListener('DOMContentLoaded', () => {
         window.print();
     }
 });
+
