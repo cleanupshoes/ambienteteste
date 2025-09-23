@@ -60,15 +60,7 @@ body {
 @media (max-width: 1024px) {
     /* Ajusta o cabeçalho para empilhar em telas de tablet */
     header .max-w-7xl {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem; /* Adiciona um espaçamento entre os blocos do header */
-    }
-    
-    header .flex.items-center.gap-4 {
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: wrap; /* Permite que os botões quebrem a linha se não couberem */
+        flex-wrap: wrap;
     }
 }
 
@@ -79,24 +71,6 @@ body {
         grid-template-columns: 1fr !important;
     }
     
-    /* Reorganiza o cabeçalho para uma melhor visualização mobile */
-    header .flex {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    header .flex.items-center.gap-4 {
-        align-items: flex-start;
-        flex-direction: column; /* Botões ficam um abaixo do outro */
-        width: 100%;
-        margin-top: 1rem;
-    }
-
-    header .flex.items-center.gap-4 > * {
-        width: 100%; /* Botões ocupam a largura total */
-        justify-content: center; /* Centraliza o texto dos botões */
-    }
-
     /* Reduz o padding principal para aproveitar melhor a tela */
     main {
         padding: 1rem;
@@ -108,18 +82,6 @@ body {
         grid-template-columns: 1fr !important;
     }
     
-    /* Melhora a visualização dos cards de ordens */
-    .card-actions {
-        flex-wrap: wrap; /* Permite que os botões de ação quebrem linha */
-        justify-content: flex-start;
-        gap: 0.5rem;
-    }
-    
-    /* Centraliza o painel de login na tela */
-    #login-section {
-        padding: 1rem;
-    }
-
     /* Ajuste de fonte para melhor leitura em telas pequenas */
     body {
         font-size: 14px;
