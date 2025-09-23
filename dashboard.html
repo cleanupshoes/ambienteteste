@@ -42,11 +42,11 @@
                 <div class="flex flex-wrap items-end gap-4">
                     <div>
                         <label for="start-date" class="block text-sm font-medium text-gray-400">Data de Início</label>
-                        <input type="date" id="start-date" class="w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-lime-500">
+                        <input type="date" id="start-date" class="w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div>
                         <label for="end-date" class="block text-sm font-medium text-gray-400">Data de Fim</label>
-                        <input type="date" id="end-date" class="w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-lime-500">
+                        <input type="date" id="end-date" class="w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <button id="commission-toggle-btn" class="bg-gray-600 text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-500 font-semibold transition-colors flex items-center gap-2">
                         Aplicar Comissão (R$10/venda)
@@ -60,7 +60,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
                 <div>
                     <p class="text-sm font-medium text-gray-400">FATURAMENTO BRUTO</p>
-                    <p id="gross-revenue" class="text-3xl font-bold text-lime-400 mt-1">R$ 0,00</p>
+                    <p id="gross-revenue" class="text-3xl font-bold text-emerald-400 mt-1">R$ 0,00</p>
                 </div>
                 <div>
                     <p class="text-sm font-medium text-gray-400">TOTAL DE DESPESAS</p>
@@ -84,11 +84,11 @@
                     <form id="new-expense-form" class="space-y-4">
                         <div>
                             <label for="expense-description" class="block text-sm font-medium text-gray-400">Descrição</label>
-                            <input type="text" id="expense-description" required class="w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500">
+                            <input type="text" id="expense-description" required class="w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         </div>
                         <div>
                             <label for="expense-value" class="block text-sm font-medium text-gray-400">Valor (R$)</label>
-                            <input type="number" step="0.01" id="expense-value" required class="w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500">
+                            <input type="number" step="0.01" id="expense-value" required class="w-full px-4 py-2 mt-1 text-gray-200 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         </div>
                         <div class="flex justify-end pt-2">
                             <button type="submit" class="btn-gradient text-gray-900 px-6 py-2 rounded-lg hover:opacity-90 font-semibold shadow-md">Adicionar Despesa</button>
@@ -101,7 +101,7 @@
                     <h3 class="text-xl font-bold mb-4 text-gray-200">Detalhes do Período</h3>
                     <div class="grid grid-cols-2 gap-6">
                         <div>
-                            <h4 class="font-semibold text-lime-400 mb-2">Vendas</h4>
+                            <h4 class="font-semibold text-emerald-400 mb-2">Vendas</h4>
                             <div id="sales-details-list" class="space-y-2 max-h-64 overflow-y-auto pr-2"></div>
                         </div>
                         <div>
